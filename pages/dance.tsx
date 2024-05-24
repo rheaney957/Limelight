@@ -5,26 +5,26 @@ import Layout from '../components/Layout'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Card from '../components/Card'
-import { ResponseData } from './comedy'
 import React, { useState } from 'react'
+import { ResponseData } from './comedy'
 import Button from '../components/Button'
 import Loading from '../components/Loading'
 
-export interface AllShowsProps {
+export interface DanceProps {
   menu: boolean;
   setMenu: React.Dispatch<React.SetStateAction<boolean>>;
-  SSRdata: ResponseData;
 }
-export default function AllShows({menu, setMenu, SSRdata}:AllShowsProps)
+
+export default function Dance({menu, setMenu}:DanceProps)
 {
 
-  const [data, setdata] = React.useState<ResponseData>(SSRdata)
-  const [isLoading, setLoading] = React.useState(false);
+  const [data, setdata] = React.useState<ResponseData>()
+  const [isLoading, setLoading] = React.useState(false)
 
   React.useEffect(() =>
   {
     setLoading(true)
-    fetch('https://www.shine.net/events_json.php')
+    fetch('https://www.shine.net/events_json.php?category=6')
       .then((res) => res.json())
       .then((data) =>
       {
@@ -41,11 +41,11 @@ export default function AllShows({menu, setMenu, SSRdata}:AllShowsProps)
   return (
     <div className={styles.container}>
       {!menu && <div className={styles.backMobile} onClick={()=> setMenu(true)}><i className="fa-solid fa-arrow-left"></i> </div>}
-      <Header route='All Shows'/>
-      <NavBar menu={menu} setMenu={setMenu}/>
+      <Header route='Dance' />
+      <NavBar menu={menu} setMenu={setMenu} />
       <Breadcrumbs />
       <main className={!menu ? styles.main : styles.mainMobile}>
-        <Layout title='All Shows' data={gigs}>
+        <Layout title='Dance' data={gigs}>
           {(!isLoading && gigs instanceof Array) && gigs?.map((gig: any, index: number) => (
             <Card
               key={index}
@@ -68,11 +68,3 @@ export default function AllShows({menu, setMenu, SSRdata}:AllShowsProps)
   )
 }
 
-export const getStaticProps = async () =>{
-  const res = await fetch('https://www.shine.net/events_json.php')
-  const data = await res.json()
-
-  return {
-      props: {SSRdata: data}
-  }
-}
