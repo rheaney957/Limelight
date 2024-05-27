@@ -13,7 +13,7 @@ export default function Header(props: HeadProps)
   return (
     <>
     <Head>
-      <title>.Limelight- {props.route}</title>
+      <title>Limelight- {props.route}</title>
     </Head >
           <header className={styles.header}>
           <div className={styles.shineLogo}>

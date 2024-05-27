@@ -20,18 +20,10 @@ export default function Footer(props: FooterProps)
           <ul className={styles.footerRoutes}>
             <li>
               <Link
-                href="./"
-                className={router.pathname == "/" ? (styles.navLinks, styles.active) : styles.navLinks}
-              >
-                All Shows
-              </Link>
-            </li>
-            <li>
-              <Link
                 href="./club-events"
                 className={router.pathname == "/" ? (styles.navLinks, styles.active) : styles.navLinks}
               >
-                Club Events
+                Club Nights
               </Link>
             </li>
             <li>
@@ -44,7 +36,7 @@ export default function Footer(props: FooterProps)
             </li>
             <li>
               <Link
-                href="./live-gigs"
+                href="./"
                 className={router.pathname == "/" ? (styles.navLinks, styles.active) : styles.navLinks}
               >
                 Live Gigs
@@ -84,7 +76,14 @@ export default function Footer(props: FooterProps)
             </li>
 
           </ul>
-          <div className={styles.footerCopyright}>SD Events Management Ltd Copyright {new Date().getFullYear()} </div>
+          <div className={styles.footerCopyright}>Limelight Belfast Limited - {new Date().getFullYear()} -
+            <Link
+                href="./privacy-policy"
+                className={router.pathname == "/" ? (styles.navLinks, styles.active) : styles.navLinks}
+              >
+                 Privacy Policy
+              </Link>
+          </div>
 
         </div>
         <div className={styles.footerMailing}>

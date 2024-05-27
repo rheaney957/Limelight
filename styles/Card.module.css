@@ -1,5 +1,5 @@
 .cardContainer {
-  background-color: #fff;
+  background-color: #232222;
   max-width: 100%;
   display: flex;
   flex-direction: column;
@@ -31,6 +31,7 @@
   grid-area: 1 / 1 / 2 / 2;
   margin: auto;
   font-size: 22px;
+  color: #ccc;
 }
 
 .cardDate div {
@@ -72,19 +73,19 @@
 .cardTitle {
   align-items: center;
   display: flex;
-  color: #666666;
+  color: #fed202;
   font-size: 14px;
 }
 .cardInfoName {
   display: block;
-  color: rgb(38, 38, 38);
+  color: #fff;
   font-weight: 600;
   line-height: 1.3;
   font-size: 20px;
 }
 .cardInfoSupport {
   display: block;
-  color: rgb(38, 38, 38);
+  color: #fff;
   font-weight: 600;
   line-height: 1.3;
   font-size: 14px;
@@ -92,7 +93,7 @@
 .cardInfoLocation {
   display: block;
   margin-top: 4px;
-  color: #666666;
+  color: #fed202;
   line-height: 1.3;
   font-size: 16px;
 }
@@ -105,7 +106,7 @@
   padding: 3px 8px;
   border: 1px solid #cccccc;
   border-radius: 4px;
-  color: #000;
+  color: #fff;
   display: inline-flex;
   align-items: center;
   font-weight: 600;

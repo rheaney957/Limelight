@@ -3,7 +3,7 @@
   flex-direction: row;
   margin: 0;
   padding: 0;
-  border-bottom: 1px solid rgba(#14737C, 0.15);
+  border-bottom: 1px solid rgba(#fed202, 0.15);
 }
 
 .item:first-of-type {
@@ -40,5 +40,5 @@
 }
 
 .link:hover {
-  color:#14737C;
+  color:#fed202;
 }

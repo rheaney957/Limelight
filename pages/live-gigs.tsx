@@ -5,8 +5,7 @@ import Breadcrumbs from '../components/Breadcrumbs'
 import Layout from '../components/Layout'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { ResponseData } from './comedy'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from '../components/Card'
 import Button from '../components/Button'
 import Loading from '../components/Loading'
@@ -18,25 +17,29 @@ export interface LiveGigsProps {
 
 export default function LiveGigs({menu, setMenu}:LiveGigsProps)
 {
-  const [data, setdata] = React.useState<ResponseData>()
-  const [isLoading, setLoading] = React.useState(false)
+  const [events, setEvents] = useState({error: "", events: [], totalCount: 0});
+  const [venueCloudId, setVenueCloudId] = useState(10);
+  const [numPerPage, setNumPerPage] = useState(10);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
-  React.useEffect(() =>
-  {
-    setLoading(true)
-    fetch('https://www.shine.net/events_json.php?category=4')
-      .then((res) => res.json())
-      .then((data) =>
-      {
-        setdata(data)
-        setLoading(false)
-      })
-  }, [])
+  useEffect(() => {
+    fetchEvents();
+  }, [venueCloudId, numPerPage, page]);
+
+  const fetchEvents = async () => {
+    setIsLoading(true)
+    const response = await fetch(`https://www.venuecloud.net/api/events?venueCloudId=${venueCloudId}&genreId=2`);
+    const data = await response.json();
+    setEvents(data);
+    setIsLoading(false)
+  };
+
 
   if (isLoading) return <Loading/>
-  if (!data) return <p>No Comedy gigs</p>
+  if (!events) return <p>No Limelight live gigs</p>
 
-  const gigs = data?.events;
+  const gigs = events?.events;
 
   return (
     <div className={styles.container}>

@@ -5,10 +5,10 @@ import Layout from '../components/Layout'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Card from '../components/Card'
-import { ResponseData } from './comedy'
 import React, { useEffect, useState } from 'react'
 import Button from '../components/Button'
 import Loading from '../components/Loading'
+import { ResponseData } from './index'
 
 export interface ClubEventsProps {
   menu: boolean;

@@ -25,62 +25,61 @@ export default function NavBar({menu, setMenu}: NavBarProps)
             <nav className={styles.navbar} onClick={e => e.stopPropagation()}>
              <div className={menu ? styles.navContainer :  styles.navContainerMobile}>
                     <ul className={styles.navMenu}>
-                        <li className={styles.navItem}  onClick={() => setMenu(false)}>
+                        <li className={styles.navItem} onClick={() => setMenu(false)}>
                             <Link
+                                legacyBehavior
                                 href="./"
-                                legacyBehavior
-                                className={router.pathname == "/" ? (styles.navLinks, styles.active) : styles.navLinks}
-                            >
-                                All Shows
-                            </Link>
-                        </li>
-                        <li className={styles.navItem}  onClick={() => setMenu(false)}>
-                            <Link
-                                href="./club-events"
-                                legacyBehavior
-                                className={router.pathname == "/" ? (styles.navLinks, styles.active) : styles.navLinks}
-
-                            >
-                                Club Events
-                            </Link>
-                        </li>
-                        <li className={styles.navItem} onClick={() => setMenu(false)}>
-                            <Link
-                                legacyBehavior
-                                href="./comedy"
-                                className={router.pathname == "/" ? (styles.navLinks, styles.active) : styles.navLinks}
-                            >
-                                Comedy
-                            </Link>
-                        </li>
-                        <li className={styles.navItem} onClick={() => setMenu(false)}>
-                            <Link
-                                legacyBehavior
-                                href="./live-gigs"
                                 className={styles.active}
                             >
-                                Live Gigs
+                                Live Shows
                             </Link>
                         </li>
+                        <li className={styles.navItem}  onClick={() => setMenu(false)}>
+                            <Link
+                                href="./club-nights"
+                                legacyBehavior
+                                className={router.pathname == "/" ? (styles.navLinks, styles.active) : styles.navLinks}
 
+                            >
+                                Club Nights
+                            </Link>
+                        </li>
                         <li className={styles.navItem} onClick={() => setMenu(false)}>
                             <Link
                                 legacyBehavior
-                                href="./help-and-FAQs"
+                                href="./venues"
                                 className={router.pathname == "/" ? (styles.navLinks, styles.active) : styles.navLinks}
                             >
-                                {"Help / FAQ\'s"}
+                                Venues
                             </Link>
                         </li>
                         <li className={styles.navItem} onClick={() => setMenu(false)}>
                             <Link
                                 legacyBehavior
-                                href="https://shine.tickets"
-                                className={router.pathname == "/" ? (styles.navLinks, styles.active) : styles.navLinks}>
-                               {"BUY TICKETS"}
+                                href="./venue-hire"
+                                className={router.pathname == "/" ? (styles.navLinks, styles.active) : styles.navLinks}
+                            >
+                                Venue Hire
                             </Link>
                         </li>
-
+                        <li className={styles.navItem} onClick={() => setMenu(false)}>
+                            <Link
+                                legacyBehavior
+                                href="./birthday-bookings"
+                                className={router.pathname == "/" ? (styles.navLinks, styles.active) : styles.navLinks}
+                            >
+                                Birthday Bookings
+                            </Link>
+                        </li>
+                        <li className={styles.navItem} onClick={() => setMenu(false)}>
+                            <Link
+                                legacyBehavior
+                                href="./contact-us"
+                                className={router.pathname == "/" ? (styles.navLinks, styles.active) : styles.navLinks}
+                            >
+                                Contact Us
+                            </Link>
+                        </li>
                     </ul>
                 </div>
             </nav >

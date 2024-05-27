@@ -5,38 +5,57 @@ import Layout from '../components/Layout'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Card from '../components/Card'
-import { ResponseData } from './comedy'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '../components/Button'
 import Loading from '../components/Loading'
+
+
+export interface ResponseData
+{
+  error: string;
+  totalCount: number;
+  events: {
+    id: string;
+    title: string;
+    startDate: [Object];
+    doors: string;
+    ticketsUrl: string;
+    websiteImage: string;
+    venue: string;
+  };
+}
 
 export interface AllShowsProps {
   menu: boolean;
   setMenu: React.Dispatch<React.SetStateAction<boolean>>;
   SSRdata: ResponseData;
 }
+
 export default function AllShows({menu, setMenu, SSRdata}:AllShowsProps)
 {
+  const [events, setEvents] = useState({error: "", events: [], totalCount: 0});
+  const [venueCloudId, setVenueCloudId] = useState(10);
+  const [numPerPage, setNumPerPage] = useState(10);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [data, setdata] = React.useState<ResponseData>(SSRdata)
-  const [isLoading, setLoading] = React.useState(false);
+  useEffect(() => {
+    fetchEvents();
+  }, [venueCloudId, numPerPage, page]);
 
-  React.useEffect(() =>
-  {
-    setLoading(true)
-    fetch('https://www.shine.net/events_json.php')
-      .then((res) => res.json())
-      .then((data) =>
-      {
-        setdata(data)
-        setLoading(false)
-      })
-  }, [])
+  const fetchEvents = async () => {
+    setIsLoading(true)
+    const response = await fetch(`https://www.venuecloud.net/api/events?venueCloudId=${venueCloudId}&numPerPage=${numPerPage}&page=${page}`);
+    const data = await response.json();
+    setEvents(data);
+    setIsLoading(false)
+  };
+
 
   if (isLoading) return <Loading/>
-  if (!data) return <p>No Comedy gigs</p>
+  if (!events) return <p>No Limelight events</p>
 
-  const gigs = data?.events;
+  const gigs = events?.events;
 
   return (
     <div className={styles.container}>
@@ -46,18 +65,18 @@ export default function AllShows({menu, setMenu, SSRdata}:AllShowsProps)
       <Breadcrumbs />
       <main className={!menu ? styles.main : styles.mainMobile}>
         <Layout title='All Shows' data={gigs}>
-          {(!isLoading && gigs instanceof Array) && gigs?.map((gig: any, index: number) => (
+          {(!isLoading && gigs instanceof Array) && gigs?.map((event: any, index: number) => (
             <Card
-              key={index}
+              key={event.id}
               gig={{
-                time: gig?.doors,
-                startDate: gig?.startDate,
-                name: gig?.title,
-                support: gig?.subTitle,
-                location: gig?.venue,
-                websiteImage: gig?.websiteImage,
-                ticketsUrl: gig?.ticketsUrl,
-                status: gig?.isSoldOut
+                time: event?.doors,
+                startDate: event?.startDate,
+                name: event?.title,
+                support: event?.subTitle,
+                location: event?.venue,
+                websiteImage: event?.websiteImage,
+                ticketsUrl: event?.ticketsUrl,
+                status: event?.isSoldOut
               }}
             />
           ))}
@@ -69,7 +88,7 @@ export default function AllShows({menu, setMenu, SSRdata}:AllShowsProps)
 }
 
 export const getStaticProps = async () =>{
-  const res = await fetch('https://www.shine.net/events_json.php')
+  const res = await fetch(`https://www.venuecloud.net/api/events?venueCloudId=10`);
   const data = await res.json()
 
   return {
