@@ -33,7 +33,7 @@ export interface AllShowsProps {
 
 export default function AllShows({menu, setMenu, SSRdata}:AllShowsProps)
 {
-  const [events, setEvents] = useState({error: "", events: [], totalCount: 0});
+  const [events, setEvents] = useState<ResponseData>(SSRdata);
   const [venueCloudId, setVenueCloudId] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -83,4 +83,13 @@ export default function AllShows({menu, setMenu, SSRdata}:AllShowsProps)
       <Footer menu={menu}/>
     </div>
   )
+}
+
+export const getStaticProps = async () =>{
+  const res = await fetch(`https://www.venuecloud.net/api/events?venueCloudId=10`);
+  const data = await res.json()
+
+  return {
+      props: {SSRdata: data}
+  }
 }

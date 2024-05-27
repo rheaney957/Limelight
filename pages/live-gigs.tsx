@@ -9,15 +9,17 @@ import React, { useEffect, useState } from 'react'
 import Card from '../components/Card'
 import Button from '../components/Button'
 import Loading from '../components/Loading'
+import { ResponseData } from './index'
 
 export interface LiveGigsProps {
   menu: boolean;
   setMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  SSRdata: ResponseData;
 }
 
-export default function LiveGigs({menu, setMenu}:LiveGigsProps)
+export default function LiveGigs({menu, setMenu, SSRdata}:LiveGigsProps)
 {
-  const [events, setEvents] = useState({error: "", events: [], totalCount: 0});
+  const [events, setEvents] = useState(SSRdata);
   const [venueCloudId, setVenueCloudId] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,4 +69,14 @@ export default function LiveGigs({menu, setMenu}:LiveGigsProps)
       <Footer menu={menu}/>
     </div>
   )
-}
+};
+
+  export const getStaticProps = async () =>{
+    const res = await fetch(`https://www.venuecloud.net/api/events?venueCloudId=10`);
+    const data = await res.json()
+
+    return {
+        props: {SSRdata: data}
+    }
+  }
+
