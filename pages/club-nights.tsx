@@ -17,35 +17,42 @@ export interface ClubEventsProps {
 
 export default function ClubEvents({menu, setMenu}:ClubEventsProps)
 {
-  const [dataState, setdata] = React.useState<any>();
-  const [dataState2, setdata2] = React.useState<ResponseData>();
-  const [isLoading, setLoading] = React.useState(false)
+
+  const [events, setEvents] = useState({error: "", events: [], totalCount: 0});
+  const [venueCloudId, setVenueCloudId] = useState(10);
+  const [isLoading, setIsLoading] = useState(false);
   const [finalState, setFinalState] = React.useState({});
+
+  useEffect(() => {
+    fetchEvents();
+  }, [venueCloudId]);
+
+  const fetchEvents = async () => {
+    setIsLoading(true)
+    const response = await fetch(`https://www.venuecloud.net/api/events?venueCloudId=${venueCloudId}`);
+    const data = await response.json();
+    setEvents(data);
+    setIsLoading(false)
+  };
+
+  const [dataState, setdata] = React.useState<any>();
 
   React.useEffect(() =>
   {
 
-    setLoading(true)
+    setIsLoading(true)
     fetch('https://www.shine.net/events_json.php?category=6')
       .then((res) => res.json())
       .then((data) =>
       {
         setdata(data)
-        setLoading(false)
-      })
-
-      fetch('https://www.shine.net/events_json.php?category=5')
-      .then((res) => res.json())
-      .then((data) =>
-      {
-        setdata2(data)
-        setLoading(false)
+        setIsLoading(false)
       })
   }, [])
 
   useEffect(() => {
-    setLoading(true);
-    const clubEvents = dataState?.events?.concat(dataState2?.events);
+    setIsLoading(true);
+    const clubEvents = events?.events;
     const sorted = clubEvents && clubEvents.sort((a: { startDate: { date: string | number | Date } },b: { startDate: { date: string | number | Date } })=>{
     // @ts-ignore
       return new Date(a.startDate.date) - new Date(b.startDate.date);
@@ -65,13 +72,13 @@ export default function ClubEvents({menu, setMenu}:ClubEventsProps)
     });
 
     setFinalState(unique);
-    setLoading(false)
+    setIsLoading(false)
 
 
-}, [dataState, dataState2]);
+}, [dataState]);
 
-  if (isLoading) return <Loading/>
-  if (!dataState) return <p>No Club Night gigs</p>
+if (isLoading) return <Loading/>
+if (!events) return <p>No Limelight club nights</p>
 
   const gigs = finalState && finalState;
 

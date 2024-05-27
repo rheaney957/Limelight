@@ -19,17 +19,15 @@ export default function LiveGigs({menu, setMenu}:LiveGigsProps)
 {
   const [events, setEvents] = useState({error: "", events: [], totalCount: 0});
   const [venueCloudId, setVenueCloudId] = useState(10);
-  const [numPerPage, setNumPerPage] = useState(10);
-  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchEvents();
-  }, [venueCloudId, numPerPage, page]);
+  }, [venueCloudId]);
 
   const fetchEvents = async () => {
     setIsLoading(true)
-    const response = await fetch(`https://www.venuecloud.net/api/events?venueCloudId=${venueCloudId}&genreId=2`);
+    const response = await fetch(`https://www.venuecloud.net/api/events?venueCloudId=${venueCloudId}`);
     const data = await response.json();
     setEvents(data);
     setIsLoading(false)
